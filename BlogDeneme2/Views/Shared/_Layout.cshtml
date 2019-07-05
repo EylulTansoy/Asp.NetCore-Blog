@@ -13,7 +13,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -21,9 +21,16 @@
     <header>
         <div class="container">
             <div class="row">
-                <div class="col-4">Menü</div>
+                <div class="col-4">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-brand" })
+                    Menü
+                </div>
+                
                 <div class="col-4 text-center">Logo</div>
-                <div class="col-4 text-right">User Info</div>
+                <div class="col-4 text-right">
+                    @Html.ActionLink("SignUp", "SignUp", "Login", new { area = " " }, new { @class = "nav-brand" })
+                    @Html.ActionLink("SignIn", "SignIn", "Login", new { area = " " }, new { @class = "nav-brand" })
+                </div>
             </div>
         </div>
     </header>
@@ -35,11 +42,11 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-             <div class="row">
-                 <div class="col-12">
-                     Copyright
-                 </div>
-             </div>
+            <div class="row">
+                <div class="col-12">
+                    Copyright
+                </div>
+            </div>
         </div>
     </footer>
 

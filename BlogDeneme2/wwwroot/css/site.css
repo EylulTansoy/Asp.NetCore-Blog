@@ -1,18 +1,24 @@
-﻿a {
+﻿a 
+{
   color: #005cbf;
 }
 
-a:hover {
+a:hover 
+{
   text-decoration: none;
 }
 
-.last-post .baslik {
+.last-post .Side-baslik 
+{
   font-weight: bold;
 }
 
-
-.last-post ul {
+.last-post ul 
+{
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
+
+
