@@ -4,14 +4,16 @@ using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190706120959_Created_Post_and_Tags_Tables")]
+    partial class Created_Post_and_Tags_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,14 +33,10 @@ namespace Data.Migrations
                     b.Property<string>("Password")
                         .IsRequired();
 
-                    b.Property<int?>("RoleId");
-
                     b.Property<string>("UserName")
                         .IsRequired();
 
                     b.HasKey("ID");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Accounts");
                 });
@@ -48,8 +46,6 @@ namespace Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AccountId");
 
                     b.Property<DateTime>("CreatedDate");
 
@@ -63,22 +59,7 @@ namespace Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AccountId");
-
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("Data.Model.Role", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("RoleName");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Data.Model.Tags", b =>
@@ -96,20 +77,6 @@ namespace Data.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("Data.Model.Account", b =>
-                {
-                    b.HasOne("Data.Model.Role", "Role")
-                        .WithMany("Accounts")
-                        .HasForeignKey("RoleId");
-                });
-
-            modelBuilder.Entity("Data.Model.Post", b =>
-                {
-                    b.HasOne("Data.Model.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
                 });
 
             modelBuilder.Entity("Data.Model.Tags", b =>

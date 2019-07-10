@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Data.Model.Tags>
+
+
+    @*<a class="btn btn-light btn-sm mb-1" href="#">@Html.Partial("TagsPartial", Model)</a>*@
+
+    @foreach (var tag in Model)
+    {
+        <a class="btn btn-light btn-sm mb-1"> @tag.Name</a>
+    }
+
+
+
+    @*<a class="btn btn-light btn-sm mb-1">Tag-2</a>
+        <a class="btn btn-light btn-sm mb-1">Tag-3</a>
+        <a class="btn btn-light btn-sm mb-1">Tag-4</a>*@
+

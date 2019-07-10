@@ -1,0 +1,26 @@
+﻿@model Data.Model.Post
+
+@{
+    Layout = null;
+}
+
+
+
+<div class="col-12">
+    <div class="card">
+        <img class="card-img-top" src="@Model.ImageUrl">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Title // @Model.Account.UserName</h5>
+            <p class="card-text">@Model.Description</p>
+        </div>
+        <div class="card-footer">
+            @foreach (var item in Model.Tags)
+            {
+                <span class="badge badge-pill badge-secondary">@item.Name</span>
+            }
+            <small class="text-lg-right text-muted">@Model.CreatedDate.ToString("dd-MM-yyyy")</small>
+            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-primary " })
+        </div>
+    </div>
+</div>
+   

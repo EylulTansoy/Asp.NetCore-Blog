@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,24 +21,63 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="row">
-                <div class="col-4">
-                    @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-brand" })
-                    Menü
-                </div>
-                
-                <div class="col-4 text-center">Logo</div>
-                <div class="col-4 text-right">
-                    @Html.ActionLink("SignUp", "SignUp", "Login", new { area = " " }, new { @class = "nav-brand" })
-                    @Html.ActionLink("SignIn", "SignIn", "Login", new { area = " " }, new { @class = "nav-brand" })
-                </div>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                </li>
+
+                @if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "User" || HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "Admin")
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Post
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "Admin")
+                            {
+                                @Html.ActionLink("Post List", "Index", "Posts", null, new { @class = "dropdown-item" })
+                            }
+                            @Html.ActionLink("Post Create", "Create", "Posts", null, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                }
+            </ul>
+            <a class="navbar-brand mr-auto ml-auto" href="#">LOGO</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav">
+                @if (HttpContextAccessor.HttpContext.Session.GetString("UserName") != null)
+                {
+                <li class="nav-item">
+                    <a class="nav-link">
+                        @HttpContextAccessor.HttpContext.Session.GetString("UserName")
+                    </a>
+                    
+                </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("LogOut", "LogOut", "Auth", null, new { @class = "nav-link" })
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink("SignIn", "SignIn", "Auth", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("SignUp", "SignUp", "Auth", null, new { @class = "nav-link" })
+                    </li>
+                }
+
+            </ul>
+
         </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    </nav>
+  
+    <div class="container mt-5">
+        <main role="main" class="pb-3 mb-5">
             @RenderBody()
         </main>
     </div>

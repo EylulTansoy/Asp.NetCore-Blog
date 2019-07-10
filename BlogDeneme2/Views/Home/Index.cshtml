@@ -1,114 +1,196 @@
-﻿@{
-ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<BlogDeneme2.Dto.PostDto>
+@{
+    ViewData["Title"] = "Home Page";
 }
-
 
 <div class="container">
     <div class="row">
         <div class="col-9">
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="container">
-                            <div class="single-posts">
-                                <!-- Content Start -->
-                                <div class="row ">
-                                    <div class="single-post">
-                                        <div class="col-12">
-                                            <img class="single-post-image" src="~/images/sample1_l.jpg" alt="">
-                                            <a href="#" class="single-post-title">Başlık</a>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sem mi,
-                                                auctor eu
-                                                placerat non, porta non nulla. Duis sollicitudin sollicitudin purus.
-                                                Suspendisse
-                                                tristique ultricies lectus, vitae hendrerit magna pretium ut. Sed quis
-                                                ex quis
-                                                nunc viverra facilisis at ac diam. Suspendisse vestibulum tortor dolor,
-                                                non
-                                                bibendum turpis viverra eu. Maecenas placerat ipsum sed risus
-                                                consectetur
-                                                tempor. Maecenas varius nisi vitae purus dapibus aliquam. Morbi orci
-                                                nulla,
-                                                molestie vitae tempor id, pellentesque et nunc. Nullam eu neque et leo
-                                                commodo
-                                                ornare. Nullam massa massa, convallis quis arcu a, dignissim feugiat
-                                                mauris.
-                                                Pellentesque cursus tincidunt metus. Quisque quis vestibulum nisi.
-                                            </p>
-
-                                        </div>
-                                        <div class="col-12 single-post-tag">
-                                            <a href="#">Kuş</a>, <a href="#">Çipetpet</a>
-
-
-                                            <a class="single-post-show-more" href="makale.hgtml">Devamını Oku ...</a>
-
-
-
-                                        </div>
-                                    </div>
+                <div class="row" id="detail">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-12 mt-lg-3">
+                            <!-- Content Start -->
+                            <!--~/images/sample1_l.jpg-->
+                            <div class="card">
+                                <img class="card-post-image" src="@item.Image" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title -Oluşturan: @item.YazarIsmi</h5>
+                                    <p class="card-text">
+                                        @item.ShortDescription ...
+                                    </p>
                                 </div>
-
-                                <div class="row  ">
-                                    <div class="single-post">
-                                        <div class="col-12">
-                                            <img class="single-post-image" src="~/images/sample1_l.jpg" alt="">
-                                            <a href="#" class="single-post-title">Başlık</a>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sem mi,
-                                                auctor eu
-                                                placerat non, porta non nulla. Duis sollicitudin sollicitudin purus.
-                                                Suspendisse
-                                                tristique ultricies lectus, vitae hendrerit magna pretium ut. Sed quis
-                                                ex quis
-                                                nunc viverra facilisis at ac diam. Suspendisse vestibulum tortor dolor,
-                                                non
-                                                bibendum turpis viverra eu. Maecenas placerat ipsum sed risus
-                                                consectetur
-                                                tempor. Maecenas varius nisi vitae purus dapibus aliquam. Morbi orci
-                                                nulla,
-                                                molestie vitae tempor id, pellentesque et nunc. Nullam eu neque et leo
-                                                commodo
-                                                ornare. Nullam massa massa, convallis quis arcu a, dignissim feugiat
-                                                mauris.
-                                                Pellentesque cursus tincidunt metus. Quisque quis vestibulum nisi.
-                                            </p>
-
-                                        </div>
-                                        <div class="col-12">
-                                            Tags
-                                        </div>
-                                    </div>
+                                <div class="card-footer">
+                                    @foreach (var tag in item.Tags)
+                                    {
+                                        <span class="badge badge-pill badge-secondary">@tag</span>
+                                    }
+                                    @*Ajax request without no refresh page*@
+                                    <a class="float-lg-right btn btn-primary" onclick="getDetail(@item.Id)"> Devamını Oku ...</a>
                                 </div>
-                                <!-- Content End -->
+                            </div>
+                        </div>
+                    }
+                    <!-- Content End -->
+                </div>
+            </div>
+        </div>
 
+
+
+        <div class="col-md-3 ml-auto">
+
+            <aside class="sidebar">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">About</h4>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                    </div>
+                </div><!-- /.card -->
+            </aside>
+
+            <aside class="sidebar sidebar-sticky">
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @*<a class="btn btn-light btn-sm mb-1" href="#">@Html.Partial("TagsPartial", Model)</a>*@
+                        <h4 class="card-title">Tags</h4>
+                        @*
+                            @await Component.InvokeAsync("Tag")
+                        *@
+
+                        @await Component.InvokeAsync("TagViewComponents")
+                        <!--<a class="btn btn-light btn-sm mb-1">Tag-1</a>-->
+                        <!--<a class="btn btn-light btn-sm mb-1">Tag-2</a>-->
+                        <!--<a class="btn btn-light btn-sm mb-1">Tag-3</a>-->
+                        <!--<a class="btn btn-light btn-sm mb-1">Tag-4</a>-->
+                    </div>
+                </div>
+                <!-- /.card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Popular stories</h4>
+
+                        @await Component.InvokeAsync("LastTitleComponents")
+
+                        @*<a class="d-inline-block">
+                            <h4 class="h6">The blind man</h4>
+                            <img class="card-img"alt="">
+                        </a>
+                        <time class="timeago" datetime="2017-10-03 20:00" data-tid="5">1 year ago</time> in Lifestyle
+
+                        <a class="d-inline-block mt-3">
+                            <h4 class="h6">Crying on the news</h4>
+                            <img class="card-img" alt="">
+                        </a>
+                        <time data-tid="6">1 year ago</time> in Work*@
+
+                    </div>
+                </div><!-- /.card -->
+            </aside>
+
+        </div>
+
+        @*<div class="col-3">
+
+                @*<div class="card my-4">
+                    <h5 class="card-header">Categories</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#">Web Design</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">HTML</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Freebies</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#">JavaScript</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">CSS</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Tutorials</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="container">
-                <div class="row">
-                    <div class="last-post">
-                        <div class="baslik">Son Başlıklar</div>
-                        <ul>
-                            <li><a href="#">Başlık - 1</a></li>
-                            <li>Başlık - 2</li>
-                            <li>Başlık - 3</li>
-                            <li>Başlık - 4</li>
-                        </ul>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="card">
+                            <div class="last-post">
+                                <div class="baslik">Popüler Başlıklar</div>
+                                <ul>
+                                    <li><a href="#">Başlık - 1</a></li>
+                                    <li>Başlık - 2</li>
+                                    <li>Başlık - 3</li>
+                                    <li>Başlık - 4</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-
+                <div class="container">
+                    <div class="row">
+                        <div class="card">
+                            <div class="last-post">
+                                <div class="baslik">Kategori</div>
+                                <ul>
+                                    <li><a href="#">Başlık - 1</a></li>
+                                    <li>Başlık - 2</li>
+                                    <li>Başlık - 3</li>
+                                    <li>Başlık - 4</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-
+                <div class="container">
+                    <div class="row">
+                        <div class="card">
+                            <div class="last-post">
+                                <div class="baslik">Son Başlıklar</div>
+                                <ul>
+                                    <li><a href="#">Başlık - 1</a></li>
+                                    <li>Başlık - 2</li>
+                                    <li>Başlık - 3</li>
+                                    <li>Başlık - 4</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div>*@
     </div>
 </div>
+
+<script>
+    function getDetail(id) {
+        console.log("first" + id);
+        $.ajax({
+            type: "GET",
+            url: "PostDetail/" + id,
+            data: id,
+            dataType: 'html',
+            success: function (data) {
+                $("#detail").html(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+</script>

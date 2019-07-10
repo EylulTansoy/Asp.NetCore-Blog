@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Data.Model.Post>
+
+@foreach (var title in Model)
+{
+    <a class="btn btn-light btn-sm mb-1"> @title.Title</a>
+}
